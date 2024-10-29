@@ -4,3 +4,12 @@ export const userSearchableFields = [
   "name.lastName",
   "presentAddress",
 ];
+
+export const USER_ROLE = {
+  superAdmin: "superAdmin",
+  admin: "admin",
+  landlord: "landlord",
+  tenant: "tenant",
+} as const;
+
+export const UserStatus = ["in-progress", "blocked"];
