@@ -58,6 +58,7 @@ const loginUser = async (payload: TLoginUser) => {
   return {
     accessToken,
     refreshToken,
+    isProfileCompleted: user?.isProfileCompleted,
   };
 };
 

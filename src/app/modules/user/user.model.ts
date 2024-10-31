@@ -29,6 +29,10 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: UserStatus,
       default: "in-progress",
     },
+    isProfileCompleted: {
+      type: Boolean,
+      default: false,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

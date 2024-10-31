@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import catchAsync from "../../../utils/catchAsync";
 import { UserServices } from "./user.service";
 import sendResponse from "../../../utils/sendResponse";
@@ -16,6 +16,19 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUsersFromDB(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Users are retrieved successfully",
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
 export const UserControllers = {
   createUser,
+  getAllUsers,
 };

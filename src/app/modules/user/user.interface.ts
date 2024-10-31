@@ -11,6 +11,7 @@ export interface TUser {
   passwordChangedAt?: Date;
   role: "superAdmin" | "admin" | "landlord" | "tenant";
   status: "in-progress" | "blocked";
+  isProfileCompleted: boolean;
   isDeleted: boolean;
 }
 
