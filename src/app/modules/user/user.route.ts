@@ -15,9 +15,15 @@ router.post(
 );
 
 router.get(
-  "/all-users",
+  "/",
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   UserControllers.getAllUsers
+);
+
+router.get(
+  "/:email",
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  UserControllers.getSingleUser
 );
 
 export const UserRoutes = router;

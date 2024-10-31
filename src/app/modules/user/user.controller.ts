@@ -28,7 +28,20 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleUser = catchAsync(async (req, res) => {
+  const { email } = req.params;
+  const result = await UserServices.getSingleUserFromDB(email);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User is retrieved Successfully",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };

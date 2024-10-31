@@ -33,7 +33,17 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
+const getSingleUserFromDB = async (email: string) => {
+  const result = await User.findOne({ email });
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user is not found");
+  }
+  return result;
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
+  getSingleUserFromDB,
 };
