@@ -3,6 +3,7 @@ export const userSearchableFields = [
   "name.firstName",
   "name.lastName",
   "presentAddress",
+  "role",
 ];
 
 export const USER_ROLE = {
