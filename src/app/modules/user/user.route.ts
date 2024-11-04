@@ -1,17 +1,23 @@
 import express from "express";
 import { UserControllers } from "./user.controller";
 import validateRequest from "../../middlewares/validateRequest";
-import userValidationSchema from "./user.validation";
 import { USER_ROLE } from "./user.constant";
 import auth from "../../middlewares/auth";
+// import { landlordValidationSchema } from "../Landlord/landlord.validation";
+import { userValidations } from "./user.validation";
 
 const router = express.Router();
 
-// will call controller function
 router.post(
   "/create-user",
-  validateRequest(userValidationSchema),
+  validateRequest(userValidations.userValidationSchema),
   UserControllers.createUser
+);
+
+router.post(
+  "/create-profile",
+  validateRequest(userValidations.userProfileValidationSchema),
+  UserControllers.createUserProfile
 );
 
 router.get(

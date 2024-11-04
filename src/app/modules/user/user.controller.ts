@@ -16,6 +16,18 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createUserProfile = catchAsync(async (req: Request, res: Response) => {
+  const { userProfile } = req.body;
+  const result = await UserServices.createUserProfileIntoDB(userProfile);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User Profile created Successfully!!",
+    data: result,
+  });
+});
+
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUsersFromDB(req.query);
 
@@ -44,4 +56,5 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
+  createUserProfile,
 };

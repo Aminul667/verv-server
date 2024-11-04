@@ -15,6 +15,16 @@ export interface TUser {
   isDeleted: boolean;
 }
 
+export type TUserProfile = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  about: string;
+  profileImg?: string;
+  isDeleted: boolean;
+};
+
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
   isUserExistsByEmail(email: string): Promise<TUser>;
