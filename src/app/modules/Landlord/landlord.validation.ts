@@ -18,8 +18,8 @@ export const createLandlordValidationSchema = z.object({
           message: "First Name must start with a capital letter",
         }),
       email: z.string().email("Invalid email format"),
-      phoneNumber: z.string(),
-      about: z.string(),
+      phoneNumber: z.string({ required_error: "Phone Number is required" }),
+      about: z.string({ required_error: "About is required" }),
     }),
   }),
 });
