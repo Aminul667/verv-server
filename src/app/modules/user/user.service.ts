@@ -27,9 +27,9 @@ const createUserProfileIntoDB = async (payload: TUserProfile) => {
   }
 
   // check if user email match in both landlord/tenant and user database
-  const checkUserEmail = User.isUserExistsByEmail(payload.email);
+  const checkUserEmail = await User.isUserExistsByEmail(payload.email);
   if (!checkUserEmail) {
-    throw new AppError(httpStatus.EXPECTATION_FAILED, "Email doesn't match");
+    throw new AppError(httpStatus.CONFLICT, "Email doesn't match");
   }
 
   // update the role in user database
