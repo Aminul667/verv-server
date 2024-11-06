@@ -5,6 +5,7 @@ import { User } from "./user.model";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { userSearchableFields } from "./user.constant";
 import { Landlord } from "../Landlord/landlord.model";
+import { Tenant } from "../Tenant/tenant.model";
 
 // create a user and save the data to the database
 const createUserIntoDB = async (payload: TUser) => {
@@ -20,33 +21,30 @@ const createUserIntoDB = async (payload: TUser) => {
 
 // create a profile for the user and save the data to the database
 const createUserProfileIntoDB = async (payload: TUserProfile) => {
-  // check whether the user exists in landlord database
-  const checkLandlordEmail = await Landlord.isLandlordExists(payload.email);
-  if (checkLandlordEmail) {
-    throw new AppError(httpStatus.CONFLICT, "User already exists!");
-  }
-
-  // check if user email match in both landlord/tenant and user database
   const checkUserEmail = await User.isUserExistsByEmail(payload.email);
+
+  // check if the user exists
   if (!checkUserEmail) {
-    throw new AppError(httpStatus.CONFLICT, "Email doesn't match");
+    throw new AppError(httpStatus.BAD_REQUEST, "User doesn't exist");
   }
 
-  // update the role in user database
+  // update the role in user database nad save the profile
   const role = payload.role;
-  await User.updateOne(
-    { email: payload.email },
-    { role: role, isProfileCompleted: true }
-  );
 
   if (role == "landlord") {
     const result = await Landlord.create(payload);
+    await User.updateOne(
+      { email: payload.email },
+      { role: role, isProfileCompleted: true }
+    );
     return result;
   } else if (role == "tenant") {
-    // const result = await Landlord.create(payload);
-    // return result;
-    console.log("Tenant will be created");
-    return { message: "Tenant will be created" };
+    const result = await Tenant.create(payload);
+    await User.updateOne(
+      { email: payload.email },
+      { role: role, isProfileCompleted: true }
+    );
+    return result;
   } else {
     throw new AppError(httpStatus.BAD_REQUEST, "Invalid User Role");
   }
