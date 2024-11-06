@@ -6,6 +6,7 @@ export type TLandlord = {
   email: string;
   phoneNumber: string;
   about: string;
+  role: "superAdmin" | "admin" | "landlord" | "tenant";
   profileImg?: string;
   isDeleted: boolean;
 };

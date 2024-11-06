@@ -7,7 +7,7 @@ const userValidationSchema = z.object({
       password: z
         .string()
         .min(8, { message: "Password must be at least 8 characters long" }),
-      role: z.enum(["superAdmin", "admin", "landlord", "tenant"]),
+      // role: z.enum(["superAdmin", "admin", "landlord", "tenant"]),
     }),
   }),
 });
@@ -32,6 +32,7 @@ export const userProfileValidationSchema = z.object({
       email: z.string().email("Invalid email format"),
       phoneNumber: z.string({ required_error: "Phone Number is required" }),
       about: z.string({ required_error: "About is required" }),
+      role: z.enum(["superAdmin", "admin", "landlord", "tenant"]),
     }),
   }),
 });

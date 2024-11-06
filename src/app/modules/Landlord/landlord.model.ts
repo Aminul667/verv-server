@@ -24,6 +24,10 @@ const landlordSchema = new Schema<TLandlord, LandlordModel>(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["superAdmin", "admin", "landlord", "tenant"],
+    },
     profileImg: { type: String, default: "" },
     isDeleted: {
       type: Boolean,

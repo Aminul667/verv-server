@@ -20,6 +20,8 @@
 //       email: z.string().email("Invalid email format"),
 //       phoneNumber: z.string({ required_error: "Phone Number is required" }),
 //       about: z.string({ required_error: "About is required" }),
+//       role: z.enum(["superAdmin", "admin", "landlord", "tenant"]),
+//       profileImg: z.string().optional(),
 //     }),
 //   }),
 // });

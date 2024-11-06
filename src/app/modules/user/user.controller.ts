@@ -4,6 +4,7 @@ import { UserServices } from "./user.service";
 import sendResponse from "../../../utils/sendResponse";
 import httpStatus from "http-status";
 
+// create a user and save into database
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { user } = req.body;
   const result = await UserServices.createUserIntoDB(user);
@@ -16,6 +17,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// create a user profile and save the data into database
 const createUserProfile = catchAsync(async (req: Request, res: Response) => {
   const { userProfile } = req.body;
   const result = await UserServices.createUserProfileIntoDB(userProfile);
@@ -28,6 +30,7 @@ const createUserProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// retrieve all users from the database
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUsersFromDB(req.query);
 
@@ -40,6 +43,7 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+// retrieve a single user from the database
 const getSingleUser = catchAsync(async (req, res) => {
   const { email } = req.params;
   const result = await UserServices.getSingleUserFromDB(email);

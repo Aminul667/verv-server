@@ -6,6 +6,7 @@ import QueryBuilder from "../../builder/QueryBuilder";
 import { userSearchableFields } from "./user.constant";
 import { Landlord } from "../Landlord/landlord.model";
 
+// create a user and save the data to the database
 const createUserIntoDB = async (payload: TUser) => {
   const user = await User.isUserExistsByEmail(payload.email);
 
@@ -17,12 +18,26 @@ const createUserIntoDB = async (payload: TUser) => {
   return result;
 };
 
+// create a profile for the user and save the data to the database
 const createUserProfileIntoDB = async (payload: TUserProfile) => {
-  const userEmail = await Landlord.isLandlordExists(payload.email);
-  if (userEmail) {
+  // check whether the user exists in landlord database
+  const checkLandlordEmail = await Landlord.isLandlordExists(payload.email);
+  if (checkLandlordEmail) {
     throw new AppError(httpStatus.CONFLICT, "User already exists!");
   }
-  const role = "landlord";
+
+  // check if user email match in both landlord/tenant and user database
+  const checkUserEmail = User.isUserExistsByEmail(payload.email);
+  if (!checkUserEmail) {
+    throw new AppError(httpStatus.EXPECTATION_FAILED, "Email doesn't match");
+  }
+
+  // update the role in user database
+  const role = payload.role;
+  await User.updateOne(
+    { email: payload.email },
+    { role: role, isProfileCompleted: true }
+  );
 
   if (role == "landlord") {
     const result = await Landlord.create(payload);
@@ -37,6 +52,7 @@ const createUserProfileIntoDB = async (payload: TUserProfile) => {
   }
 };
 
+// retrieve all users from the database
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const userQuery = new QueryBuilder(User.find(), query)
     .search(userSearchableFields)
@@ -54,6 +70,7 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
+// retrieve a single user from the database
 const getSingleUserFromDB = async (email: string) => {
   const result = await User.findOne({ email });
 

@@ -9,7 +9,7 @@ export interface TUser {
   email: string;
   password: string;
   passwordChangedAt?: Date;
-  role: "superAdmin" | "admin" | "landlord" | "tenant";
+  role: "superAdmin" | "admin" | "landlord" | "tenant" | "user";
   status: "in-progress" | "blocked";
   isProfileCompleted: boolean;
   isDeleted: boolean;
@@ -21,6 +21,7 @@ export type TUserProfile = {
   email: string;
   phoneNumber: string;
   about: string;
+  role: string;
   profileImg?: string;
   isDeleted: boolean;
 };
