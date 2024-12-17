@@ -21,6 +21,7 @@ const loginUser = catchAsync(async (req, res) => {
     message: "User is logged in Successfully!",
     data: {
       accessToken,
+      refreshToken,
       isProfileCompleted,
     },
   });

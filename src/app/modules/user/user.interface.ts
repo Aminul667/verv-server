@@ -9,7 +9,7 @@ export interface TUser {
   email: string;
   password: string;
   passwordChangedAt?: Date;
-  role: "superAdmin" | "admin" | "landlord" | "tenant" | "user";
+  role: "superAdmin" | "admin" | "landlord" | "tenant";
   status: "in-progress" | "blocked";
   isProfileCompleted: boolean;
   isDeleted: boolean;
