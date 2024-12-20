@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+const registerValidationSchema = z.object({
+  body: z.object({
+    email: z.string().email("Invalid email format"),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+    role: z.enum(["superAdmin", "admin", "landlord", "tenant"]),
+  }),
+});
+
 const loginValidationSchema = z.object({
   body: z.object({
     email: z.string({ required_error: "Email is required." }),
@@ -44,6 +54,7 @@ const resetPasswordValidationSchema = z.object({
 });
 
 export const AuthValidation = {
+  registerValidationSchema,
   loginValidationSchema,
   changePasswordValidationSchema,
   refreshTokenValidationSchema,

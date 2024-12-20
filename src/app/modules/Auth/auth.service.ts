@@ -4,13 +4,57 @@ import httpStatus from "http-status";
 import config from "../../config";
 import AppError from "../../errors/AppError";
 // import { sendEmail } from '../../utils/sendEmail';
-import { TLoginUser } from "./auth.interface";
+import { TLoginUser, TRegisterUser } from "./auth.interface";
 import { createToken } from "./auth.utils";
 import { User } from "../User/user.model";
 
+// 20Dec2024 start
+const registerUser = async (payload: TRegisterUser) => {
+  // checking if the user is exist
+  const user = await User.isUserExistsByEmail(payload?.email);
+
+  if (user) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user is already exist!");
+  }
+
+  // payload.role = USER_ROLE.USER;
+
+  //create new user
+  const newUser = await User.create(payload);
+
+  //create token and send to the  client
+
+  const jwtPayload = {
+    userEmail: newUser.email,
+    role: newUser.role,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string
+  );
+
+  // console.log(refreshToken);
+
+  return {
+    accessToken,
+    refreshToken,
+    isProfileCompleted: newUser?.isProfileCompleted,
+  };
+};
+
+// 20Dec2024 end
+
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByEmail(payload.email);
+  const user = await User.isUserExistsByEmail(payload?.email);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
@@ -36,7 +80,7 @@ const loginUser = async (payload: TLoginUser) => {
   if (!(await User.isPasswordMatched(payload?.password, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, "Password do not matched");
 
-  //create token and sent to the  client
+  //create token and send to the  client
 
   const jwtPayload = {
     userEmail: user.email,
@@ -65,5 +109,6 @@ const loginUser = async (payload: TLoginUser) => {
 };
 
 export const AuthServices = {
+  registerUser,
   loginUser,
 };

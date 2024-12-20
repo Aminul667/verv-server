@@ -4,6 +4,30 @@ import catchAsync from "../../../utils/catchAsync";
 import sendResponse from "../../../utils/sendResponse";
 import { AuthServices } from "./auth.service";
 
+// 20Dec2024 start
+const registerUser = catchAsync(async (req, res) => {
+  const result = await AuthServices.registerUser(req.body);
+  const { refreshToken, accessToken, isProfileCompleted } = result;
+
+  res.cookie("refreshToken", refreshToken, {
+    secure: config.NODE_ENV === "production",
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User registered in successfully!",
+    data: {
+      accessToken,
+      refreshToken,
+      isProfileCompleted,
+    },
+  });
+});
+
+// 20Dec2024 end
+
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
   const { refreshToken, accessToken, isProfileCompleted } = result;
@@ -28,5 +52,6 @@ const loginUser = catchAsync(async (req, res) => {
 });
 
 export const AuthControllers = {
+  registerUser,
   loginUser,
 };
