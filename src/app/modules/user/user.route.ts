@@ -20,16 +20,22 @@ router.post(
   UserControllers.createUserProfile
 );
 
-router.get(
-  "/",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-  UserControllers.getAllUsers
-);
+// router.get(
+//   "/",
+//   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+//   UserControllers.getAllUsers
+// );
+
+// router.get(
+//   "/:email",
+//   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+//   UserControllers.getSingleUser
+// );
 
 router.get(
-  "/:email",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-  UserControllers.getSingleUser
+  "/me",
+  auth(USER_ROLE.landlord, USER_ROLE.tenant),
+  UserControllers.getMe
 );
 
 export const UserRoutes = router;

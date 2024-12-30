@@ -78,9 +78,29 @@ const getSingleUserFromDB = async (email: string) => {
   return result;
 };
 
+// const getMe = async (userEmail: string, role: string) => {
+//   let result = null;
+//   if (role === 'student') {
+//     result = await Student.findOne({ id: userId }).populate('user');
+//   }
+//   if (role === 'admin') {
+//     result = await Admin.findOne({ id: userId }).populate('user');
+//   }
+
+//   if (role === 'faculty') {
+//     result = await Faculty.findOne({ id: userId }).populate('user');
+//   }
+
+//   const result = await User.findOne({ email: userEmail });
+//   console.log("from service", result);
+//   // const result = { Note: "It will be updated", email: userEmail, role: role };
+//   return result;
+// };
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   createUserProfileIntoDB,
+  // getMe,
 };
