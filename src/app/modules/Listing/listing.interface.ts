@@ -39,6 +39,7 @@ export interface TTenantPreferences {
 }
 
 export interface TAddListing {
+  landlordEmail: string;
   propertyRoomDetails: TRoomDetails;
   tenancyDetails: TTenancyDetails;
   features: TFeatures;
@@ -46,5 +47,5 @@ export interface TAddListing {
   availabilityDetails?: string;
   remoteVideoViewing: boolean;
   propertyPhotos: string[];
-  youTubeUrl: string;
+  youTubeUrl?: string;
 }
