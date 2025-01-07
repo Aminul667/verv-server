@@ -59,16 +59,18 @@ const getSingleUser = catchAsync(async (req, res) => {
 const getMe = catchAsync(async (req, res) => {
   const { userEmail, role } = req.user;
 
-  console.log("from controller", req.user);
+  console.log(userEmail, role, res);
 
-  const result = await UserServices.getMe(userEmail, role);
+  // console.log("from controller", req.user);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "User is retrieved Successfully",
-    data: result,
-  });
+  // const result = await UserServices.getMe(userEmail, role);
+
+  // sendResponse(res, {
+  //   statusCode: httpStatus.OK,
+  //   success: true,
+  //   message: "User is retrieved Successfully",
+  //   data: result,
+  // });
 });
 
 export const UserControllers = {
